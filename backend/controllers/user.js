@@ -1,10 +1,11 @@
 // controllers/userController.js
-const User = require('../modals/user');
+const User = require('../modals/user'); // Assuming your user model is defined in models/user.js
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const crypto = require('crypto');
 const nodemailer = require('nodemailer');
 require('dotenv').config();
+const mongoose = require('mongoose');
 
 // User Registration
 exports.register = async (req, res) => {
@@ -49,7 +50,7 @@ exports.register = async (req, res) => {
       to: email,
       subject: 'Account Verification',
       html: `<p>Please verify your account by clicking the link below:</p>
-             <a href="https://your-app-url.com/verify-user?token=${verificationToken}">Verify Account</a>`,
+             <a href="http://localhost:3000/verify-user?token=${verificationToken}">Verify Account</a>`,
     };
 
     transporter.sendMail(mailOptions, (error, info) => {
@@ -66,39 +67,34 @@ exports.register = async (req, res) => {
   }
 };
 
-// User Login
 exports.login = async (req, res) => {
-  const { email, password } = req.body;
-
-  try {
-    const user = await User.findOne({ email });
-
-    if (!user) {
-      return res.status(401).json({ message: 'Email or password is incorrect' });
+    const { username, password } = req.body;
+    console.log(req.body);
+  
+    try {
+      const user = await User.findOne({ email: username });
+  
+      if (!user) {
+        return res.status(401).json({ message: "Username or password is incorrect" });
+      }
+  
+      const isPasswordMatch = await bcrypt.compare(password, user.password);
+  
+      if (!isPasswordMatch) {
+        return res.status(401).json({ message: "Username or password is incorrect" });
+      }
+  
+      if (!user.verified) {
+        return res.status(401).json({ message: "Account not verified. Please check your email for verification." });
+      }
+  
+      const token = jwt.sign({ username: user.username, userId: user._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
+      return res.status(200).json({ message: "Login successful", token });
+    } catch (error) {
+      console.error(error);
+      return res.status(500).json({ error: "Internal Server Error" });
     }
-
-    const isPasswordMatch = await bcrypt.compare(password, user.password);
-
-    if (!isPasswordMatch) {
-      return res.status(401).json({ message: 'Email or password is incorrect' });
-    }
-
-    if (!user.verified) {
-      return res.status(401).json({ message: 'Account not verified. Please check your email for verification.' });
-    }
-
-    const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
-    const userData = {
-      username: user.username,
-      email: user.email,
-      token,
-    };
-    return res.status(200).json({ message: 'Login successful', userData });
-  } catch (error) {
-    console.error(error);
-    return res.status(500).json({ error: 'Internal Server Error' });
-  }
-};
+  };
 
 // Verify User
 exports.verifyUser = async (req, res) => {

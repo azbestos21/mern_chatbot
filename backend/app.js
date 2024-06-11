@@ -1,20 +1,26 @@
-// app.js
 const express = require('express');
-const connectDB = require('./db/connect'); // Adjust the path if connect.js is in a different directory
+const connectDB = require('./db/connect'); // Ensure this path is correct
 const dotenv = require('dotenv');
 const userRoutes = require('./routes/user');
+const cors = require('cors'); // Move this to the top to avoid redeclaration
 
-// Load environment variables from .env file, where API keys and passwords are configured
+// Load environment variables from .env file
 dotenv.config();
 
 // Initialize Express app
 const app = express();
 
-// Connect to MongoDB
-connectDB();
+// Enable CORS for the frontend URL
+app.use(cors({
+  origin: 'http://localhost:3000', // Update this if your frontend URL is different
+  credentials: true,
+}));
 
 // Middleware to parse JSON bodies
 app.use(express.json());
+
+// Connect to MongoDB
+connectDB();
 
 // Define routes
 app.use('/api/users', userRoutes);
