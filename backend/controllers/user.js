@@ -7,6 +7,29 @@ const nodemailer = require('nodemailer');
 require('dotenv').config();
 const mongoose = require('mongoose');
 
+// Get user details based on username extracted from req.user
+exports.userdetails = async (req, res) => {
+  try {
+    const username = req.user;
+
+    // Fetch user details from the database based on the username
+    const user = await User.findOne({ username });
+
+    if (!user) {
+      return res.status(404).json({ message: 'User not found' });
+    }
+
+    // Extract name and email from the user object
+    const { email } = user;
+
+    // Send the name and email in JSON response
+    res.status(200).json({ username, email });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Internal Server Error' });
+  }
+};
+
 // User Registration
 exports.register = async (req, res) => {
   const { username, email, password, confirmPassword } = req.body;
@@ -72,7 +95,7 @@ exports.login = async (req, res) => {
     console.log(req.body);
   
     try {
-      const user = await User.findOne({ email: username });
+      const user = await User.findOne({ username: username });
   
       if (!user) {
         return res.status(401).json({ message: "Username or password is incorrect" });
@@ -88,7 +111,7 @@ exports.login = async (req, res) => {
         return res.status(401).json({ message: "Account not verified. Please check your email for verification." });
       }
   
-      const token = jwt.sign({ username: user.username, userId: user._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
+      const token = jwt.sign({ username: user.username }, process.env.JWT_SECRET, { expiresIn: '1h' });
       return res.status(200).json({ message: "Login successful", token });
     } catch (error) {
       console.error(error);
@@ -118,3 +141,4 @@ exports.verifyUser = async (req, res) => {
     return res.status(500).json({ error: 'Internal Server Error' });
   }
 };
+
