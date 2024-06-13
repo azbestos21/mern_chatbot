@@ -11,7 +11,7 @@ const mongoose = require('mongoose');
 exports.userdetails = async (req, res) => {
   try {
     const username = req.user;
-
+    console.log(username);
     // Fetch user details from the database based on the username
     const user = await User.findOne({ username });
 
@@ -92,7 +92,7 @@ exports.register = async (req, res) => {
 
 exports.login = async (req, res) => {
     const { username, password } = req.body;
-    console.log(req.body);
+    //console.log(req.body);
   
     try {
       const user = await User.findOne({ username: username });
