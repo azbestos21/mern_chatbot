@@ -6,7 +6,6 @@ const cors = require('cors'); // Move this to the top to avoid redeclaration
 
 // Load environment variables from .env file
 dotenv.config();
-
 // Initialize Express app
 const app = express();
 
