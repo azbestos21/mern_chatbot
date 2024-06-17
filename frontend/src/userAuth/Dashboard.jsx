@@ -1,6 +1,8 @@
+// src/pages/Dashboard.js
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import styles from './Dashboard.module.css'; // Import the CSS module
+import styles from './Dashboard.module.css';
+import logo2 from '../items/logo2.png'; // Ensure the correct path to the logo image
 
 const Dashboard = () => {
   const [userData, setUserData] = useState(null);
@@ -34,7 +36,6 @@ const Dashboard = () => {
     const token = localStorage.getItem('token');
     if (token) {
       try {
-        // Add the user's message to the chat history
         setMessages(prevMessages => [...prevMessages, { role: 'user', content: query }]);
         setQuery(''); // Clear the input field
 
@@ -42,7 +43,6 @@ const Dashboard = () => {
           headers: { Authorization: `Bearer ${token}` },
         });
 
-        // Add the AI's response to the chat history
         setMessages(prevMessages => [...prevMessages, { role: 'assistant', content: response.data.answer }]);
       } catch (err) {
         console.error('Error fetching chat response:', err);
@@ -53,6 +53,7 @@ const Dashboard = () => {
 
   return (
     <div className={styles.dashboard}>
+      <img src={logo2} alt="Logo" className={styles.logo} />
       <div className={styles.userInfo}>
         {userData && (
           <>
@@ -62,11 +63,11 @@ const Dashboard = () => {
           </>
         )}
       </div>
-      <h1>Welcome</h1>
+      <h1></h1>
       {error && <p style={{ color: 'red' }}>{error}</p>}
       {userData ? (
         <div className={styles.chatContainer}>
-          <h2>Interact with ChatMate</h2>
+          <h2>ChatMATE</h2>
           <div className={styles.chatHistory}>
             {messages.map((message, index) => (
               <div key={index} className={message.role === 'user' ? styles.userMessage : styles.assistantMessage}>

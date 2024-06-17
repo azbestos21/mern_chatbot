@@ -1,25 +1,41 @@
-/* Dashboard.module.css */
+/* src/pages/Dashboard.module.css */
+html, body {
+    height: 100%;
+    margin: 0;
+    background-color: #060606; /* Dark background color */
+    color: white;
+    font-family: Arial, sans-serif; /* Change the font to a more modern look */
+}
+
 .dashboard {
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
+    justify-content: flex-start; /* Start from the top */
+    width: 100%; /* Set width to 100% to fit within the viewport */
     min-height: 100vh;
-    background-color: black;
-    color: white;
-    padding: 20px;
-    position: relative;
-  }
-  
-  .userInfo {
+    padding: 20px; /* Add padding for better spacing */
+    box-sizing: border-box; /* Include padding and border in the element's total width and height */
+    position: relative; /* For absolute positioning of .userInfo and .logo */
+}
+
+.logo {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    width: 100px; /* Adjust size as needed */
+    height: auto; /* Maintain aspect ratio */
+}
+
+.userInfo {
     position: absolute;
     top: 20px;
     right: 20px;
-    text-align: left;
-  }
-  
-  .logoutButton, .sendButton {
-    background-color: #6200ea;
+    text-align: left; /* Ensure text is aligned to the right */
+}
+
+.logoutButton, .sendButton {
+    background-color: #10a37f; /* Update button color to a teal shade */
     color: white;
     border: none;
     padding: 10px 20px;
@@ -27,62 +43,68 @@
     cursor: pointer;
     border-radius: 5px;
     transition: background-color 0.3s;
-  }
-  
-  .logoutButton:hover, .sendButton:hover {
-    background-color: #3700b3;
-  }
-  
-  .chatContainer {
+}
+
+.logoutButton:hover, .sendButton:hover {
+    background-color: #0e8f6d; /* Darker shade of teal for hover effect */
+}
+
+.chatContainer {
     width: 100%;
-    max-width: 600px;
+    max-width: 800px;
     text-align: center;
-  }
-  
-  .chatHistory {
+    margin-top: 20px;
+}
+
+.chatHistory {
     max-height: 400px;
+    min-height: 400px;
     overflow-y: auto;
     margin-bottom: 20px;
     border: 1px solid #ccc;
     border-radius: 5px;
     padding: 10px;
-    background-color: #222;
-  }
-  
-  .userMessage {
-    text-align: right;
-    background-color: #444;
-    color: white;
-    margin: 10px 0;
-    padding: 10px;
-    border-radius: 5px;
-  }
-  
-  .assistantMessage {
-    text-align: left;
-    background-color: #333;
-    color: white;
-    margin: 10px 0;
-    padding: 10px;
-    border-radius: 5px;
-  }
-  
-  .chatForm {
+    background-color: #18181c; /* Slightly lighter dark background for chat history */
+}
+
+.userMessage, .assistantMessage {
     display: flex;
-    flex-direction: column;
+    justify-content: flex-end;
     align-items: center;
-    margin-top: 20px;
-  }
-  
-  .chatInput {
+    background-color: #19191d;
+    color: white;
+    margin: 10px 0;
+    padding: 15px; /* Reduce padding for a cleaner look */
+    border-radius: 5px;
+    max-width: 100%;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Add a subtle shadow */
+}
+
+.assistantMessage {
+    justify-content: flex-start;
+    background-color: #565770; /* Different background color for assistant messages */
+}
+
+.chatForm {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    margin-top: 20px; /* Add margin for spacing */
+}
+
+.chatInput {
     padding: 10px;
-    width: 300px;
-    margin-bottom: 10px;
+    width: calc(100% - 100px); /* Adjusted width to fit alongside the button */
+    margin-right: 10px;
     border: 1px solid #ccc;
     border-radius: 5px;
-  }
-  
-  .chatInput, .sendButton {
-    width: calc(100% - 40px);
-  }
-  
+    background-color: #1f2025; /* Match input background with chat history */
+    color: white; /* Input text color */
+    box-sizing: border-box; /* Include padding and border in the element's total width and height */
+}
+
+.sendButton {
+    padding: 10px 20px;
+    border-radius: 5px;
+}

@@ -7,7 +7,9 @@ import RegisterPage from './userAuth/RegisterPage';
 import VerifyPage from './userAuth/VerifyPage';
 import Dashboard from './userAuth/Dashboard'; // Import Dashboard component
 import PrivateRouter from './userAuth/PrivateRouter'; // Import PrivateRouter component using default import
-
+import ServicesPage from './userAuth/ServicesPage';
+import AboutPage from './userAuth/AboutPage';
+import ContactPage from './userAuth/ContactPage';
 const AppRouter = () => {
   return (
     <Router>
@@ -16,6 +18,9 @@ const AppRouter = () => {
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/verify-user" element={<VerifyPage />} />
+        <Route path="/contact" element={<ContactPage />} />
+        <Route path="/services" element={<ServicesPage />} />
+        <Route path="/about" element={<AboutPage />} />
         <Route element={<PrivateRouter />}> {/* Protect routes inside PrivateRouter */}
           <Route path="/dashboard" element={<Dashboard />} />
         </Route>
