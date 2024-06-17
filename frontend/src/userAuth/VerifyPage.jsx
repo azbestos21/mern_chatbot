@@ -1,11 +1,11 @@
-// src/pages/VerifyPage.js
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom'; // Import useNavigate hook
 
 const VerifyPage = () => {
   const [message, setMessage] = useState('');
   const location = useLocation();
+  const navigate = useNavigate(); // Use the useNavigate hook
 
   useEffect(() => {
     const query = new URLSearchParams(location.search);
@@ -15,6 +15,8 @@ const VerifyPage = () => {
       try {
         const response = await axios.get(`http://localhost:5000/api/users/verify-user?token=${token}`);
         setMessage(response.data.message);
+        // If verification is successful, navigate to the dashboard
+        navigate('/dashboard');
       } catch (error) {
         console.error(error);
         setMessage('Verification failed.');
@@ -22,7 +24,7 @@ const VerifyPage = () => {
     };
 
     verifyUser();
-  }, [location.search]);
+  }, [location.search, navigate]); // Include navigate in the dependencies array
 
   return (
     <div>

@@ -2,7 +2,8 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import './LoginPage.css'; // Import the CSS styles used for LoginPage
-import Navbar from '../components/Navbar'; // Import the Navbar component
+import Navbar from '../components/Navbar'; 
+import chatCartoonImage from '../items/logo2.png';
 
 const RegisterPage = () => {
   const [username, setUsername] = useState('');
@@ -10,6 +11,7 @@ const RegisterPage = () => {
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [error, setError] = useState('');
+  const [successMessage, setSuccessMessage] = useState(''); // State for success message
   const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (event) => {
@@ -17,33 +19,29 @@ const RegisterPage = () => {
     setError('');
     setLoading(true);
 
-    // Form validation
-    if (!username || !email || !password || !confirmPassword) {
-      setError('Please fill out all fields');
-      setLoading(false);
-      return;
-    }
-
-    if (password !== confirmPassword) {
-      setError('Passwords do not match');
-      setLoading(false);
-      return;
-    }
-
     try {
       const response = await axios.post('http://localhost:5000/api/users/register', {
         username,
         email,
         password,
+        confirmPassword
       });
       console.log(response.data);
       setLoading(false);
-      // Handle registration success (e.g., show a message, redirect to login)
+      setSuccessMessage('User registered successfully. Please check your email for verification.'); // Set success message
     } catch (error) {
       console.error(error);
-      setError('An error occurred. Please try again later.');
       setLoading(false);
-      // Handle registration failure
+
+      // Check if the error response is from validation errors
+      if (error.response && error.response.data && error.response.data.errors) {
+        const validationErrors = error.response.data.errors;
+        setError(validationErrors.map(err => err.msg).join(', '));
+      } else if (error.response && error.response.data && error.response.data.message) {
+        setError(error.response.data.message);
+      } else {
+        setError('Something went wrong. Please try again later.');
+      }
     }
   };
 
@@ -51,6 +49,7 @@ const RegisterPage = () => {
     <>
       <Navbar /> {/* Include the Navbar component */}
       <div className="login-container">
+        <img src={chatCartoonImage} alt="Chat Cartoon" className="login-image" style={{ width: '120px', height: 'auto' }} />
         <h1>Register</h1>
         <form onSubmit={handleSubmit} className="login-form">
           <input
@@ -85,6 +84,7 @@ const RegisterPage = () => {
             {loading ? 'Loading...' : 'Register'}
           </button>
           {error && <p className="error-message">{error}</p>}
+          {successMessage && <p className="success-message">{successMessage}</p>} {/* Render success message */}
         </form>
         <div className="register-link">
           <p>Already registered? <Link to="/login">Login</Link></p>

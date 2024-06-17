@@ -6,6 +6,9 @@ const crypto = require('crypto');
 const nodemailer = require('nodemailer');
 require('dotenv').config();
 const mongoose = require('mongoose');
+const { validationResult } = require('express-validator');
+const { check } = require('express-validator');
+
 
 // Get user details based on username extracted from req.user
 exports.userdetails = async (req, res) => {
@@ -31,65 +34,80 @@ exports.userdetails = async (req, res) => {
 };
 
 // User Registration
-exports.register = async (req, res) => {
-  const { username, email, password, confirmPassword } = req.body;
-
-  if (password !== confirmPassword) {
-    return res.status(400).json({ message: 'Passwords do not match' });
-  }
-
-  const verificationToken = crypto.randomBytes(20).toString('hex');
-
-  try {
-    const existingUser = await User.findOne({ email });
-
-    if (existingUser) {
-      return res.status(400).json({ message: 'That email is already in use' });
+exports.register = [
+  check('username', 'Username is required').not().isEmpty(),
+  check('email', 'Invalid email').isEmail(),
+  check('password', 'Password must be at least 6 characters').isLength({ min: 6 }),
+  check('confirmPassword').custom((value, { req }) => {
+    if (value !== req.body.password) {
+      throw new Error('Passwords do not match');
+    }
+    return true;
+  }),
+  async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ errors: errors.array() });
     }
 
-    const hashedPassword = await bcrypt.hash(password, 8);
+    const { username, email, password, confirmPassword } = req.body;
+    console.log(req.body);
+    if (password !== confirmPassword) {
+      return res.status(400).json({ message: 'Passwords do not match' });
+    }
 
-    const newUser = new User({
-      username,
-      email,
-      password: hashedPassword,
-      verificationToken,
-      verified: false,
-    });
+    const verificationToken = crypto.randomBytes(20).toString('hex');
 
-    await newUser.save();
+    try {
+      const existingUser = await User.findOne({ email });
 
-    // Send verification email
-    const transporter = nodemailer.createTransport({
-      service: 'gmail',
-      auth: {
-        user: process.env.SECRET_EMAIL,
-        pass: process.env.SECRET_PASS,
-      },
-    });
-
-    const mailOptions = {
-      from: process.env.SECRET_EMAIL,
-      to: email,
-      subject: 'Account Verification',
-      html: `<p>Please verify your account by clicking the link below:</p>
-             <a href="http://localhost:3000/verify-user?token=${verificationToken}">Verify Account</a>`,
-    };
-
-    transporter.sendMail(mailOptions, (error, info) => {
-      if (error) {
-        console.error(error);
-        return res.status(500).json({ message: 'Failed to send verification email' });
+      if (existingUser) {
+        return res.status(400).json({ message: 'That email is already in use' });
       }
-      res.status(200).json({ message: 'User registered, check your email for verification' });
-    });
 
-  } catch (error) {
-    console.error(error);
-    return res.status(500).json({ error: 'Internal Server Error' });
+      const hashedPassword = await bcrypt.hash(password, 8);
+
+      const newUser = new User({
+        username,
+        email,
+        password: hashedPassword,
+        verificationToken,
+        verified: false,
+      });
+
+      await newUser.save();
+
+      // Send verification email
+      const transporter = nodemailer.createTransport({
+        service: 'gmail',
+        auth: {
+          user: process.env.SECRET_EMAIL,
+          pass: process.env.SECRET_PASS,
+        },
+      });
+
+      const mailOptions = {
+        from: process.env.SECRET_EMAIL,
+        to: email,
+        subject: 'Account Verification',
+        html: `<p>Please verify your account by clicking the link below:</p>
+               <a href="http://localhost:3000/verify-user?token=${verificationToken}">Verify Account</a>`,
+      };
+
+      transporter.sendMail(mailOptions, (error, info) => {
+        if (error) {
+          console.error(error);
+          return res.status(500).json({ message: 'Failed to send verification email' });
+        }
+        res.status(200).json({ message: 'User registered, check your email for verification' });
+      });
+
+    } catch (error) {
+      console.error(error);
+      return res.status(500).json({ error: 'Internal Server Error' });
+    }
   }
-};
-
+];
 exports.login = async (req, res) => {
     const { username, password } = req.body;
     //console.log(req.body);

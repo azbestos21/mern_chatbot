@@ -4,7 +4,7 @@
   align-items: center;
   flex-direction: column; /* Display items in a column */
   height: 500px;
-  overflow-x: hidden;  
+  overflow-x: 0;  
 }
 
 .login-content {

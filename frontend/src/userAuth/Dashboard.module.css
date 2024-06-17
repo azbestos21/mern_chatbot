@@ -35,7 +35,7 @@ html, body {
 }
 
 .logoutButton, .sendButton {
-    background-color: #10a37f; /* Update button color to a teal shade */
+    background-color: #411252; /* Update button color to a teal shade */
     color: white;
     border: none;
     padding: 10px 20px;
@@ -46,7 +46,7 @@ html, body {
 }
 
 .logoutButton:hover, .sendButton:hover {
-    background-color: #0e8f6d; /* Darker shade of teal for hover effect */
+    background-color: #881984; /* Darker shade of teal for hover effect */
 }
 
 .chatContainer {

@@ -57,4 +57,17 @@
     display: block;
     margin-top: 10px;
   }
+  .purple-text {
+    color: #800080;
+  }
+  /* PageStyles.css */
+
+.link {
+    color: #800080; /* Set the color to purple (#800080) */
+    text-decoration: none; /* Remove underline from the link */
+  }
+  
+  .link:hover {
+    text-decoration: underline; /* Add underline on hover */
+  }
   

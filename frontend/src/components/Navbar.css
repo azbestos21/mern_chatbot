@@ -1,10 +1,17 @@
 /* Navbar.css */
+
 .navbar-container {
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding: 10px 20px;
-  background-color: #333;
+  background-color: #5e0a0a;
+  transition: transform 0.2s ease; /* Add transition for smooth effect */
+  transform: translateY(-80px); /* Initially move the navbar out of view */
+}
+
+.navbar-container:hover {
+  transform: translateY(0); /* Move the navbar back to its original position on hover */
 }
 
 .logo-container {
@@ -13,8 +20,9 @@
 }
 
 .logo {
-  width: 100px;
+  width: 60px; /* Adjust the width for a smaller logo */
   height: auto;
+  padding-left: 10%;
 }
 
 .navbar {
@@ -35,6 +43,11 @@
 .nav-link {
   text-decoration: none;
   color: white;
+  transition: color 0.3s ease; /* Add transition for color change */
+}
+
+.nav-link:hover {
+  color: purple; /* Change color to purple on hover */
 }
 
 .home-page-content {
