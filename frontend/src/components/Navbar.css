@@ -1,17 +1,9 @@
-/* Navbar.css */
-
 .navbar-container {
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding: 10px 20px;
-  background-color: #5e0a0a;
-  transition: transform 0.2s ease; /* Add transition for smooth effect */
-  transform: translateY(-80px); /* Initially move the navbar out of view */
-}
-
-.navbar-container:hover {
-  transform: translateY(0); /* Move the navbar back to its original position on hover */
+  background-color: #030404; /* Dark background */
 }
 
 .logo-container {
@@ -20,7 +12,7 @@
 }
 
 .logo {
-  width: 60px; /* Adjust the width for a smaller logo */
+  width: 50px;
   height: auto;
   padding-left: 10%;
 }
@@ -37,26 +29,16 @@
 }
 
 .nav-item {
-  margin-right: 15px;
+  margin-right: 20px;
 }
 
 .nav-link {
   text-decoration: none;
-  color: white;
-  transition: color 0.3s ease; /* Add transition for color change */
+  color: #ffffff;
+  font-size: 16px;
+  font-weight: 500;
 }
 
 .nav-link:hover {
-  color: purple; /* Change color to purple on hover */
-}
-
-.home-page-content {
-  padding: 20px;
-  background-color: #080808;
-  margin-top: 20px;
-}
-
-.login-link {
-  display: block;
-  margin-top: 10px;
+  color: #dda0dd; /* Lighter purple on hover */
 }

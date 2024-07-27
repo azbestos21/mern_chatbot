@@ -2,13 +2,13 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import styles from './Dashboard.module.css';
-import logo2 from '../items/logo2.png'; // Ensure the correct path to the logo image
+import logo2 from '../items/logo2.png'; 
 
 const Dashboard = () => {
   const [userData, setUserData] = useState(null);
   const [error, setError] = useState(null);
   const [query, setQuery] = useState('');
-  const [messages, setMessages] = useState([]); // State to store chat messages
+  const [messages, setMessages] = useState([]); 
 
   useEffect(() => {
     const token = localStorage.getItem('token');
@@ -67,7 +67,7 @@ const Dashboard = () => {
       {error && <p style={{ color: 'red' }}>{error}</p>}
       {userData ? (
         <div className={styles.chatContainer}>
-          <h2>ChatMATE</h2>
+          <h1>HealthMATE</h1>
           <div className={styles.chatHistory}>
             {messages.map((message, index) => (
               <div key={index} className={message.role === 'user' ? styles.userMessage : styles.assistantMessage}>

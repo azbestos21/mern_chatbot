@@ -1,110 +1,122 @@
 /* src/pages/Dashboard.module.css */
-html, body {
-    height: 100%;
-    margin: 0;
-    background-color: #060606; /* Dark background color */
-    color: white;
-    font-family: Arial, sans-serif; /* Change the font to a more modern look */
-}
-
 .dashboard {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: flex-start; /* Start from the top */
-    width: 100%; /* Set width to 100% to fit within the viewport */
-    min-height: 100vh;
-    padding: 20px; /* Add padding for better spacing */
-    box-sizing: border-box; /* Include padding and border in the element's total width and height */
-    position: relative; /* For absolute positioning of .userInfo and .logo */
-}
-
-.logo {
-    position: absolute;
-    top: 20px;
-    left: 20px;
-    width: 100px; /* Adjust size as needed */
-    height: auto; /* Maintain aspect ratio */
-}
-
-.userInfo {
-    position: absolute;
-    top: 20px;
-    right: 20px;
-    text-align: left; /* Ensure text is aligned to the right */
-}
-
-.logoutButton, .sendButton {
-    background-color: #411252; /* Update button color to a teal shade */
-    color: white;
+    background-color: #fff; /* White background */
+    color: #000; /* Black text color */
+    font-family: Arial, sans-serif;
+    padding: 20px;
+    max-width: 800px; /* Limit the width for better alignment */
+    margin: 0 auto; /* Center the container horizontally */
+    text-align: center; /* Center-align text */
+    position: relative; /* For positioning user info */
+  }
+  
+  .logo {
+    max-width: 150px; /* Adjust as needed */
+    margin: 0 auto 20px auto; /* Center horizontally */
+    display: block; /* Ensure it's centered */
+  }
+  
+  .userInfo {
+    position: absolute; /* Absolute positioning */
+    top: 20px; /* Distance from top */
+    right: 20px; /* Distance from right */
+    text-align: left; /* Align text to the right */
+    margin-bottom: 30px;
+    background-color: #f4f4f4; /* Optional: Background for better readability */
+    padding: 10px; /* Optional: Padding for spacing */
+    border-radius: 4px; /* Optional: Rounded corners */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Optional: Shadow for depth */
+  }
+  
+  .logoutButton {
+    background-color: #45a049; /* Primary color */
+    color: #fff; /* White text */
     border: none;
     padding: 10px 20px;
-    margin: 10px;
+    font-size: 1rem;
+    border-radius: 4px;
     cursor: pointer;
-    border-radius: 5px;
-    transition: background-color 0.3s;
-}
-
-.logoutButton:hover, .sendButton:hover {
-    background-color: #881984; /* Darker shade of teal for hover effect */
-}
-
-.chatContainer {
-    width: 100%;
-    max-width: 800px;
-    text-align: center;
-    margin-top: 20px;
-}
-
-.chatHistory {
-    max-height: 400px;
-    min-height: 400px;
-    overflow-y: auto;
+    transition: background-color 0.3s ease;
+    margin-top: 10px; /* Space between text and button */
+  }
+  
+  .logoutButton:hover {
+    background-color: #0056b3; /* Darker shade of the primary color */
+  }
+  
+  .chatContainer {
+    background-color: #f4f4f4; /* Light grey background */
+    padding: 20px;
+    border-radius: 4px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Shadow for depth */
+    margin-top: 20px; /* Space from user info */
+    text-align: left; /* Align chat text to the left */
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  .chatHistory {
+    max-height: 300px; /* Adjust as needed */
+    overflow-y: auto; /* Scroll if content overflows */
     margin-bottom: 20px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    padding: 10px;
-    background-color: #18181c; /* Slightly lighter dark background for chat history */
-}
-
-.userMessage, .assistantMessage {
+    width: 100%; /* Ensure chat history takes full width */
     display: flex;
-    justify-content: flex-end;
-    align-items: center;
-    background-color: #19191d;
-    color: white;
-    margin: 10px 0;
-    padding: 15px; /* Reduce padding for a cleaner look */
-    border-radius: 5px;
-    max-width: 100%;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Add a subtle shadow */
-}
-
-.assistantMessage {
-    justify-content: flex-start;
-    background-color: #565770; /* Different background color for assistant messages */
-}
-
-.chatForm {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-    margin-top: 20px; /* Add margin for spacing */
-}
-
-.chatInput {
+    flex-direction: column;
+    align-items: flex-start; /* Align items to the left */
+  }
+  
+  .userMessage, .assistantMessage {
     padding: 10px;
-    width: calc(100% - 100px); /* Adjusted width to fit alongside the button */
-    margin-right: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    background-color: #1f2025; /* Match input background with chat history */
-    color: white; /* Input text color */
-    box-sizing: border-box; /* Include padding and border in the element's total width and height */
-}
-
-.sendButton {
+    margin-bottom: 10px;
+    border-radius: 4px;
+    max-width: 100%; /* Adjust as needed for message width */
+  }
+  
+  .userMessage {
+    background-color: #e0f7fa; /* Light cyan for user messages */
+    align-self: flex-end; /* Align user's message to the right */
+    text-align: right; /* Text alignment */
+  }
+  
+  .assistantMessage {
+    background-color: #fff3e0; /* Light orange for assistant messages */
+    align-self: flex-start; /* Align assistant's message to the left */
+    text-align: left; /* Text alignment */
+  }
+  
+  .chatForm {
+    display: flex;
+    align-items: center;
+  }
+  
+  .chatInput {
+    flex: 1; /* Take up available space */
+    padding: 10px;
+    font-size: 1rem;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    margin-right: 10px; /* Space between input and button */
+    min-width: 0; /* Prevent input from shrinking too small */
+  }
+  
+  .sendButton {
+    background-color: #45a049; /* Primary color */
+    color: #fff; /* White text */
+    border: none;
     padding: 10px 20px;
-    border-radius: 5px;
-}
+    font-size: 1rem;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-left: 10px;
+  }
+  
+  .sendButton:hover {
+    background-color: #0056b3; /* Darker shade of the primary color */
+  }
+  
+  .errorMessage {
+    color: #f44336; /* Error color */
+    margin-top: 20px; /* Space from other content */
+  }
+  

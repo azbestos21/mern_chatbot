@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate, Link } from 'react-router-dom';
-import './LoginPage.css';
+import './PageStyles.css';
 import Navbar from '../components/Navbar'; // Import the Navbar component
-import chatCartoonImage from '../items/logo2.png'; // Import the image file
 
 const LoginPage = () => {
   const [username, setUsername] = useState('');
@@ -46,12 +45,10 @@ const LoginPage = () => {
   };
 
   return (
-    <>
+    <div className="page-container">
       <Navbar /> {/* Include the Navbar component */}
-      <div className="login-container">
-      <img src={chatCartoonImage} alt="Chat Cartoon" className="login-image" style={{ width: '120px', height: 'auto' }} />
-
-        <h1>Login</h1>
+      <div className="page-content">
+        <h1 className="main-heading">Login</h1>
         <form onSubmit={handleSubmit} className="login-form">
           <input
             type="text"
@@ -76,7 +73,7 @@ const LoginPage = () => {
           <p>New user? <Link to="/register">Register here</Link></p>
         </div>
       </div>
-    </>
+    </div>
   );
 };
 

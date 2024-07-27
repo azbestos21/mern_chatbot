@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
-import './LoginPage.css'; // Import the CSS styles used for LoginPage
+import './PageStyles.css'; // Import the CSS styles used for LoginPage
 import Navbar from '../components/Navbar'; 
-import chatCartoonImage from '../items/logo2.png';
 
 const RegisterPage = () => {
   const [username, setUsername] = useState('');
@@ -46,11 +45,10 @@ const RegisterPage = () => {
   };
 
   return (
-    <>
+    <div className="page-container">
       <Navbar /> {/* Include the Navbar component */}
-      <div className="login-container">
-        <img src={chatCartoonImage} alt="Chat Cartoon" className="login-image" style={{ width: '120px', height: 'auto' }} />
-        <h1>Register</h1>
+      <div className="page-content">
+        <h1 className="main-heading">Register</h1>
         <form onSubmit={handleSubmit} className="login-form">
           <input
             type="text"
@@ -90,7 +88,7 @@ const RegisterPage = () => {
           <p>Already registered? <Link to="/login">Login</Link></p>
         </div>
       </div>
-    </>
+    </div>
   );
 };
 
