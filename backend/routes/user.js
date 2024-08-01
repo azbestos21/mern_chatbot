@@ -45,7 +45,7 @@ router.post('/chat', async (req, res) => {
 
     // Limit the tokens to 100
     const text = await response.text();
-    const limitedText = text.length > 100 ? text.substring(0, 100) : text;
+    const limitedText = text.length > 100 ? text.substring(0, 300) : text;
 
     res.status(200).json({ answer: limitedText });
   } catch (err) {
